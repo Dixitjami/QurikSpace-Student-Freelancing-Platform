@@ -12,7 +12,7 @@ jobs:
 
     env:
       DEBUG: "0"
-      SECRET_KEY: "ci-only-secret-key-that-is-not-used-in-production"
+      SECRET_KEY: "CI_9fB2xQ7mL4vN8kR1pT6yW3cD0sH5jA9uE2gZ7nM4qK8rV1bX6p"
       ALLOWED_HOSTS: "127.0.0.1,localhost"
       SECURE_SSL_REDIRECT: "1"
       SESSION_COOKIE_SECURE: "1"
@@ -48,7 +48,7 @@ jobs:
         run: docker build -t django-freelancing-platform .
 
   publish-docker-image:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DOCKERHUB_PUBLISH_ENABLED == 'true'
     needs: validate-and-build
     runs-on: ubuntu-latest
     permissions:

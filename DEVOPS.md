@@ -80,6 +80,9 @@ DOCKERHUB_TOKEN=<Docker Hub access token>
 ```
 
 Use a Docker Hub access token, not your Docker Hub password.
+Also create the repository variable `DOCKERHUB_PUBLISH_ENABLED=true`. Until
+that variable is enabled, CI validation runs normally and the publish job is
+intentionally skipped.
 
 ## Production Checklist
 
