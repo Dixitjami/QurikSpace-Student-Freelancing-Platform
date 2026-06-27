@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen bg-paper py-12 md:py-16">
+    <div class="max-w-5xl mx-auto px-6">
+
+        <div class="rounded-xl border border-ink/10 bg-white p-8 shadow-sm md:p-10 mb-8">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-5">
+                <div>
+                    <p class="text-sea text-xs uppercase tracking-[0.16em] font-extrabold">Order Management</p>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-ink mt-2">Order #{{ order.id }}</h1>
+                    <p class="text-ink/58 mt-3">Review milestones, pricing, and current delivery status.</p>
+                </div>
+
+                <div>
+                    {% if order.status == 'pending' %}
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-amber-100 text-amber-800 border border-amber-200">Pending</span>
+                    {% elif order.status == 'in_progress' %}
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-sky-100 text-sky-800 border border-sky-200">In Progress</span>
+                    {% elif order.status == 'delivered' %}
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-indigo-100 text-indigo-800 border border-indigo-200">Delivered</span>
+                    {% elif order.status == 'completed' %}
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">Completed</span>
+                    {% elif order.status == 'cancelled' %}
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-rose-100 text-rose-800 border border-rose-200">Cancelled</span>
+                    {% else %}
+                        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-700 border border-slate-200">{{ order.get_status_display }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bg-white border border-ink/10 rounded-lg p-6 md:p-7 shadow-sm">
+                <h2 class="text-xl font-extrabold text-ink mb-6">Order Summary</h2>
+
+                <dl class="grid sm:grid-cols-2 gap-4">
+                    <div class="bg-paper border border-ink/10 rounded-lg p-4">
+                        <dt class="text-xs uppercase tracking-wide text-ink/50">Gig</dt>
+                        <dd class="mt-1 text-ink font-semibold">{{ order.gig.title }}</dd>
+                    </div>
+
+                    <div class="bg-paper border border-ink/10 rounded-lg p-4">
+                        <dt class="text-xs uppercase tracking-wide text-ink/50">Package</dt>
+                        <dd class="mt-1 text-ink font-semibold">{{ order.tier.get_tier_name_display }}</dd>
+                    </div>
+
+                    <div class="bg-paper border border-ink/10 rounded-lg p-4">
+                        <dt class="text-xs uppercase tracking-wide text-ink/50">Price</dt>
+                        <dd class="mt-1 text-sea font-bold">Rs {{ order.price }}</dd>
+                    </div>
+
+                    <div class="bg-paper border border-ink/10 rounded-lg p-4">
+                        <dt class="text-xs uppercase tracking-wide text-ink/50">Created</dt>
+                        <dd class="mt-1 text-ink font-semibold">{{ order.created_at|date:"M d, Y" }}</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <aside class="bg-white border border-ink/10 rounded-lg p-6 shadow-sm">
+                <h3 class="text-lg font-extrabold text-ink">People</h3>
+                <div class="mt-5 space-y-4">
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-ink/50">Seller</p>
+                        <p class="text-ink font-semibold mt-1">{{ order.seller.username }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-ink/50">Client</p>
+                        <p class="text-ink font-semibold mt-1">{{ order.client.username }}</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="bg-white border border-ink/10 rounded-lg p-6 md:p-7 shadow-sm mt-6">
+            <h2 class="text-xl font-extrabold text-ink">Actions</h2>
+            <p class="text-ink/55 mt-2">Available actions depend on your role and current order status.</p>
+
+            <div class="flex flex-wrap gap-3 mt-6">
+                {% if request.user == order.seller and order.status == 'pending' %}
+                    <a href="{% url 'accept_order' order.id %}" class="inline-flex items-center bg-ink hover:bg-carbon text-white px-5 py-2.5 rounded-lg font-semibold transition">
+                        Accept Order
+                    </a>
+                {% endif %}
+
+                {% if request.user == order.seller and order.status == 'in_progress' %}
+                    <a href="{% url 'deliver_order' order.id %}" class="inline-flex items-center bg-ink hover:bg-carbon text-white px-5 py-2.5 rounded-lg font-semibold transition">
+                        Mark as Delivered
+                    </a>
+                {% endif %}
+
+                {% if request.user == order.client and order.status == 'delivered' %}
+                    <a href="{% url 'approve_order' order.id %}" class="inline-flex items-center bg-ink hover:bg-carbon text-white px-5 py-2.5 rounded-lg font-semibold transition">
+                        Approve and Complete
+                    </a>
+                {% endif %}
+
+                {% if request.user == order.client and order.status == 'completed' and not order.review %}
+                    <a href="{% url 'create_review' order.id %}" class="inline-flex items-center bg-ink hover:bg-carbon text-white px-5 py-2.5 rounded-lg font-semibold transition">
+                        Leave Review
+                    </a>
+                {% endif %}
+
+                <a href="{% url 'my_orders' %}" class="inline-flex items-center border border-ink/15 text-ink hover:bg-paper px-5 py-2.5 rounded-lg font-semibold transition">
+                    Back to My Orders
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+<h2>Add Portfolio Project</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.title.label }}<br>
+    {{ form.title }}<br><br>
+
+    {{ form.description.label }}<br>
+    {{ form.description }}<br><br>
+
+    {{ form.project_link.label }}<br>
+    {{ form.project_link }}<br><br>
+
+    {{ form.image.label }}<br>
+    {{ form.image }}<br><br>
+
+    <button type="submit">Add Project</button>
+</form>

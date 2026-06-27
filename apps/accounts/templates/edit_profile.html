@@ -1,0 +1,79 @@
+{% extends "dashboard_layout.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-10 text-gray-800">
+    Edit Profile
+</h1>
+
+<form method="post" enctype="multipart/form-data"
+      class="bg-white p-10 rounded-2xl shadow-lg space-y-6">
+
+    {% csrf_token %}
+
+    <!-- Profile Image -->
+    <div>
+        <label class="block font-semibold mb-2">Profile Photo</label>
+        <input type="file" name="profile_image"
+               class="border p-2 rounded w-full">
+    </div>
+
+    <!-- Bio -->
+    <div>
+        <label class="block font-semibold mb-2">Bio</label>
+        {{ form.bio }}
+    </div>
+
+    <!-- Skills -->
+    <div>
+        <label class="block font-semibold mb-2">
+            Skills (comma separated)
+        </label>
+        {{ form.skills }}
+    </div>
+
+    <!-- Availability -->
+    <div>
+        <label class="block font-semibold mb-2">Availability</label>
+        {{ form.is_available }}
+    </div>
+
+    <!-- Experience -->
+    <div>
+        <label class="block font-semibold mb-2">Experience Level</label>
+        {{ form.experience_level }}
+    </div>
+
+    <!-- Education -->
+    <div class="grid md:grid-cols-2 gap-6">
+        <div>
+            <label class="block font-semibold mb-2">University</label>
+            {{ form.university }}
+        </div>
+        <div>
+            <label class="block font-semibold mb-2">Degree</label>
+            {{ form.degree }}
+        </div>
+        <div>
+            <label class="block font-semibold mb-2">Field of Study</label>
+            {{ form.field_of_study }}
+        </div>
+        <div>
+            <label class="block font-semibold mb-2">Graduation Year</label>
+            {{ form.graduation_year }}
+        </div>
+    </div>
+
+    <!-- Resume -->
+    <div>
+        <label class="block font-semibold mb-2">Upload Resume (PDF)</label>
+        {{ form.resume }}
+    </div>
+
+    <button type="submit"
+            class="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-full shadow transition">
+        Save Changes
+    </button>
+
+</form>
+
+{% endblock %}

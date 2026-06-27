@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="bg-[#fff6ef]">
+    <section class="overflow-hidden">
+        <div class="relative min-h-[680px] overflow-hidden bg-[#181313] px-6 pb-12 pt-20 sm:px-8 md:pl-12 md:pr-0 md:pt-28 lg:pl-16">
+            <video class="absolute inset-0 h-full w-full object-cover object-[68%_center] opacity-100 brightness-[1.12] contrast-[1.12] saturate-[1.16]"
+                   src="{% static 'images/herosecvideo.mp4' %}?v=20260526164445"
+                   autoplay muted loop playsinline>
+            </video>
+            <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,246,239,0.96)_0%,rgba(255,246,239,0.86)_30%,rgba(255,246,239,0.30)_46%,rgba(255,246,239,0.04)_64%,rgba(24,19,19,0.04)_100%)]"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_78%_34%,rgba(249,184,75,0.16)_0%,rgba(249,184,75,0)_30%)]"></div>
+            <div class="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(0deg,#ffffff_0%,rgba(255,255,255,0.54)_38%,rgba(255,255,255,0)_100%)]"></div>
+
+            <div class="relative z-10 flex min-h-[560px] max-w-[520px] flex-col justify-between">
+                <div class="max-w-[500px]">
+                    <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F5843A]">QurikSpace Workspace</p>
+                    <h1 class="mt-4 text-[40px] font-extrabold leading-[1.08] text-ink md:text-[56px]">
+                        Best way to hire skilled freelancers
+                    </h1>
+                    <p class="mt-6 max-w-[400px] text-[15px] leading-7 text-ink/62">
+                        A new way to make hiring easy, reliable and secure. Manage freelance work, orders, messages and payments from one workspace.
+                    </p>
+                    <a href="{% url 'gig_list' %}" class="mt-10 inline-flex h-16 items-center justify-center rounded-full bg-[#E8402A] px-9 text-[13px] font-extrabold text-white shadow-[0_18px_35px_rgba(232,64,42,0.34)] transition hover:bg-[#F5843A]">
+                        Explore Now
+                        <span class="ml-3">-></span>
+                    </a>
+                </div>
+
+                <div class="grid max-w-[460px] grid-cols-3 gap-5 pb-4">
+                    <div>
+                        <p class="text-2xl font-extrabold text-ink">24h</p>
+                        <p class="mt-2 text-xs font-medium text-ink/55">Fast Replies</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-ink">3200+</p>
+                        <p class="mt-2 text-xs font-medium text-ink/55">Active Users</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-ink">750+</p>
+                        <p class="mt-2 text-xs font-medium text-ink/55">User Reviews</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if request.user.is_authenticated %}
+        <section class="bg-white px-6 py-16 md:px-20">
+            <div class="mx-auto max-w-7xl">
+                <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                    <div>
+                        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F5843A]">
+                            {% if request.user.user_type == 'client' %}Client Flow{% else %}Freelancer Flow{% endif %}
+                        </p>
+                        <h2 class="mt-3 text-[30px] font-extrabold leading-tight tracking-[-0.02em] text-ink md:text-[36px]">
+                            {% if request.user.user_type == 'client' %}
+                                How hiring works on QurikSpace
+                            {% else %}
+                                How selling services works on QurikSpace
+                            {% endif %}
+                        </h2>
+                    </div>
+                    <a href="{% url 'dashboard' %}" class="inline-flex rounded-full bg-[#E8402A] px-6 py-3 text-xs font-extrabold text-white shadow-[0_14px_28px_rgba(232,64,42,0.24)] transition hover:bg-[#F5843A]">
+                        Open Dashboard
+                    </a>
+                </div>
+
+                <div class="mt-10 grid gap-4 lg:grid-cols-4">
+                    {% if request.user.user_type == 'client' %}
+                        <div class="relative rounded-lg border border-ink/10 bg-[#fffaf5] p-5 shadow-sm">
+                            <span class="absolute -right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-ink/10 bg-white text-xs font-black text-coral shadow-sm lg:grid">-&gt;</span>
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#E8402A] text-sm font-black text-white">1</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Browse Services</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">Use Services, Explore, or recommendations to find the right freelancer.</p>
+                        </div>
+                        <div class="relative rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
+                            <span class="absolute -right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-ink/10 bg-white text-xs font-black text-coral shadow-sm lg:grid">-&gt;</span>
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#F5843A] text-sm font-black text-white">2</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Place Order</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">Choose a package, confirm details, and pay through the wallet flow.</p>
+                        </div>
+                        <div class="relative rounded-lg border border-ink/10 bg-[#fffaf5] p-5 shadow-sm">
+                            <span class="absolute -right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-ink/10 bg-white text-xs font-black text-coral shadow-sm lg:grid">-&gt;</span>
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#303030] text-sm font-black text-white">3</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Track Progress</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">Message the freelancer and follow order status from your dashboard.</p>
+                        </div>
+                        <div class="relative rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#F9B84B] text-sm font-black text-ink">4</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Approve & Review</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">Accept the delivery, release payment, and leave a review.</p>
+                        </div>
+                    {% else %}
+                        <div class="relative rounded-lg border border-ink/10 bg-[#fffaf5] p-5 shadow-sm">
+                            <span class="absolute -right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-ink/10 bg-white text-xs font-black text-coral shadow-sm lg:grid">-&gt;</span>
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#E8402A] text-sm font-black text-white">1</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Create Gig</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">Publish your service with clear packages, pricing, and delivery time.</p>
+                        </div>
+                        <div class="relative rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
+                            <span class="absolute -right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-ink/10 bg-white text-xs font-black text-coral shadow-sm lg:grid">-&gt;</span>
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#F5843A] text-sm font-black text-white">2</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Receive Orders</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">Clients discover your gig, place orders, and start conversations.</p>
+                        </div>
+                        <div class="relative rounded-lg border border-ink/10 bg-[#fffaf5] p-5 shadow-sm">
+                            <span class="absolute -right-5 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-ink/10 bg-white text-xs font-black text-coral shadow-sm lg:grid">-&gt;</span>
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#303030] text-sm font-black text-white">3</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Deliver Work</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">Manage deadlines, send updates, and submit the completed work.</p>
+                        </div>
+                        <div class="relative rounded-lg border border-ink/10 bg-white p-5 shadow-sm">
+                            <span class="grid h-9 w-9 place-items-center rounded-full bg-[#F9B84B] text-sm font-black text-ink">4</span>
+                            <h3 class="mt-5 text-lg font-extrabold text-ink">Get Paid</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink/52">After client approval, your earnings move into your wallet.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <section id="how-it-works" class="bg-white px-8 py-20 md:px-20">
+            <h2 class="text-center text-[36px] font-extrabold tracking-[-0.02em] text-ink">Why QurikSpace?</h2>
+
+            <div class="mx-auto mt-16 grid max-w-5xl gap-8 text-[13px] font-extrabold text-ink/55 md:grid-cols-4">
+                <div class="flex items-center justify-center gap-3">
+                    <span class="grid h-7 w-7 place-items-center rounded-md bg-[#e8e8e8] text-white">*</span>
+                    Mobile Wallet
+                </div>
+                <div class="flex flex-col items-center gap-3 text-ink">
+                    <div class="flex items-center gap-3">
+                        <span class="grid h-7 w-7 place-items-center rounded-full bg-[#fff0e8] text-[#E8402A]">&#10003;</span>
+                        Highly Secured
+                    </div>
+                    <div class="h-[2px] w-36 bg-[#E8402A]"></div>
+                </div>
+                <div class="flex items-center justify-center gap-3">
+                    <span class="grid h-7 w-7 place-items-center rounded-md bg-[#e8e8e8] text-white">*</span>
+                    No Hidden Fee's
+                </div>
+                <div class="flex items-center justify-center gap-3">
+                    <span class="grid h-7 w-7 place-items-center rounded-full bg-[#e8e8e8] text-white">*</span>
+                    24/7 Support
+                </div>
+            </div>
+
+            <div class="mt-24 grid items-center gap-12 lg:grid-cols-2">
+                <div>
+                    <h3 class="max-w-md text-[34px] font-extrabold leading-tight tracking-[-0.02em] text-ink">
+                        You will always get extra security from us
+                    </h3>
+                    <p class="mt-6 max-w-md text-sm leading-7 text-ink/48">
+                        QurikSpace keeps conversations, orders, delivery status and payment records in one simple place.
+                    </p>
+                </div>
+                <div class="relative hidden min-h-64 lg:block">
+                    <div class="absolute left-16 top-10 h-40 w-40 rounded-tl-[140px] border-[34px] border-[#F9B84B] border-b-0 border-r-0 opacity-80"></div>
+                    <div class="absolute left-36 top-24 h-36 w-36 rounded-br-[130px] border-[32px] border-[#fdc6bb] border-l-0 border-t-0"></div>
+                    <div class="absolute left-24 top-20 w-72 rotate-[-12deg] rounded-xl bg-white/80 p-6 shadow-crisp">
+                        <p class="text-xs font-bold text-ink/38">Secure order progress</p>
+                        <div class="mt-4 h-2 rounded-full bg-mist">
+                            <div class="h-2 w-3/4 rounded-full bg-[#E8402A]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-[#fffaf5] px-8 py-16 md:px-20">
+            <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+                <div>
+                    <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F5843A]">Open QurikSpace</p>
+                    <h2 class="mt-3 text-[34px] font-extrabold leading-tight tracking-[-0.02em] text-ink">
+                        Everything important is one click away.
+                    </h2>
+                    <p class="mt-4 text-sm leading-7 text-ink/48">
+                        Use these shortcuts to move through the actual app: browse gigs, manage orders, chat, check your wallet, or create a service.
+                    </p>
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <a href="{% url 'gig_list' %}" class="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                        <p class="text-sm font-extrabold text-ink">Explore Gigs</p>
+                        <p class="mt-2 text-xs leading-5 text-ink/45">Browse freelance services from people ready to work.</p>
+                    </a>
+                    <a href="{% url 'recommendations_home' %}" class="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                        <p class="text-sm font-extrabold text-ink">Recommendations</p>
+                        <p class="mt-2 text-xs leading-5 text-ink/45">Find matching gigs faster.</p>
+                    </a>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                            <p class="text-sm font-extrabold text-ink">Dashboard</p>
+                            <p class="mt-2 text-xs leading-5 text-ink/45">Open your workspace overview.</p>
+                        </a>
+                        <a href="{% url 'my_orders' %}" class="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                            <p class="text-sm font-extrabold text-ink">Orders</p>
+                            <p class="mt-2 text-xs leading-5 text-ink/45">Track active and completed work.</p>
+                        </a>
+                        <a href="{% url 'my_conversations' %}" class="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                            <p class="text-sm font-extrabold text-ink">Messages</p>
+                            <p class="mt-2 text-xs leading-5 text-ink/45">Continue client or freelancer chats.</p>
+                        </a>
+                        <a href="{% url 'wallet' %}" class="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                            <p class="text-sm font-extrabold text-ink">Wallet</p>
+                            <p class="mt-2 text-xs leading-5 text-ink/45">Review payment activity and balance.</p>
+                        </a>
+                        {% if request.user.user_type == 'student' %}
+                            <a href="{% url 'create_gig' %}" class="rounded-2xl border border-[#E8402A]/25 bg-[#fff0e8] p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                                <p class="text-sm font-extrabold text-ink">Create Gig</p>
+                                <p class="mt-2 text-xs leading-5 text-ink/45">Publish a new freelance service.</p>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}" class="rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                            <p class="text-sm font-extrabold text-ink">Log In</p>
+                            <p class="mt-2 text-xs leading-5 text-ink/45">Open your existing account.</p>
+                        </a>
+                        <a href="{% url 'register' %}" class="rounded-2xl border border-[#E8402A]/25 bg-[#fff0e8] p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-crisp">
+                            <p class="text-sm font-extrabold text-ink">Create Account</p>
+                            <p class="mt-2 text-xs leading-5 text-ink/45">Join as a client or freelancer.</p>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section class="relative overflow-hidden bg-[#f9f3ee] px-8 py-16 text-center md:px-20">
+            <div class="absolute left-16 top-10 h-20 w-20 rounded-br-[80px] border-[22px] border-[#fdc6bb] border-l-0 border-t-0 opacity-55"></div>
+            <div class="absolute right-28 top-8 h-20 w-20 rounded-tl-[80px] border-[22px] border-[#F9B84B] border-b-0 border-r-0 opacity-60"></div>
+            <h2 class="relative text-[30px] font-extrabold tracking-[-0.02em] text-ink">Want to try our service?</h2>
+            <p class="relative mx-auto mt-4 max-w-xl text-xs leading-6 text-ink/42">
+                We are offering freelance services for anyone ready to work, with simple orders, messages and reviews.
+            </p>
+            <a href="{% url 'register' %}" class="relative mt-8 inline-flex rounded-full bg-[#E8402A] px-8 py-4 text-xs font-extrabold text-white shadow-[0_18px_35px_rgba(232,64,42,0.3)] hover:bg-[#F5843A]">
+                Get Started
+                <span class="ml-3">-></span>
+            </a>
+        </section>
+    </section>
+</div>
+
+{% endblock %}

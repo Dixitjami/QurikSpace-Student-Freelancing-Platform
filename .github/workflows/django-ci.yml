@@ -1,0 +1,77 @@
+name: Django CI/CD
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+
+    env:
+      DEBUG: "0"
+      SECRET_KEY: "ci-only-secret-key-that-is-not-used-in-production"
+      ALLOWED_HOSTS: "127.0.0.1,localhost"
+      SECURE_SSL_REDIRECT: "1"
+      SESSION_COOKIE_SECURE: "1"
+      CSRF_COOKIE_SECURE: "1"
+      SECURE_HSTS_SECONDS: "31536000"
+      SECURE_HSTS_PRELOAD: "1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate Django project
+        run: |
+          python manage.py check
+          python manage.py check --deploy --fail-level WARNING
+          python manage.py makemigrations --check --dry-run
+
+      - name: Run tests
+        run: python manage.py test
+
+      - name: Build Docker image
+        run: docker build -t django-freelancing-platform .
+
+  publish-docker-image:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate-and-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and publish Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            dixit1114/student-freelancing-platform:latest
+            dixit1114/student-freelancing-platform:${{ github.sha }}

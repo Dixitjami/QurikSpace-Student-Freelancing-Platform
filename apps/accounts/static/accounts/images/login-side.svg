@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="1600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 320) rotate(47) scale(500 420)">
+      <stop stop-color="#2DD4BF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#2DD4BF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(960 1210) rotate(-18) scale(460 420)">
+      <stop stop-color="#14B8A6" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#14B8A6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="1600" fill="url(#bg)"/>
+  <ellipse cx="260" cy="320" rx="480" ry="380" fill="url(#glow1)"/>
+  <ellipse cx="940" cy="1220" rx="420" ry="360" fill="url(#glow2)"/>
+
+  <g opacity="0.18" stroke="#CCFBF1" stroke-width="1.2">
+    <path d="M84 240h1032"/>
+    <path d="M84 360h1032"/>
+    <path d="M84 480h1032"/>
+    <path d="M84 600h1032"/>
+    <path d="M84 720h1032"/>
+    <path d="M84 840h1032"/>
+    <path d="M84 960h1032"/>
+    <path d="M84 1080h1032"/>
+    <path d="M84 1200h1032"/>
+    <path d="M84 1320h1032"/>
+    <path d="M84 1440h1032"/>
+    <path d="M180 140v1320"/>
+    <path d="M340 140v1320"/>
+    <path d="M500 140v1320"/>
+    <path d="M660 140v1320"/>
+    <path d="M820 140v1320"/>
+    <path d="M980 140v1320"/>
+  </g>
+
+  <g fill="#E6FFFA" fill-opacity="0.92">
+    <circle cx="190" cy="210" r="3"/>
+    <circle cx="1040" cy="290" r="2.8"/>
+    <circle cx="920" cy="520" r="2.5"/>
+    <circle cx="320" cy="760" r="2.6"/>
+    <circle cx="1030" cy="990" r="3"/>
+    <circle cx="220" cy="1160" r="2.9"/>
+    <circle cx="880" cy="1360" r="2.7"/>
+  </g>
+
+  <text x="110" y="1490" fill="#CCFBF1" fill-opacity="0.9" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="600">
+    QurikSpace
+  </text>
+  <text x="110" y="1538" fill="#99F6E4" fill-opacity="0.85" font-family="Segoe UI, Arial, sans-serif" font-size="24">
+    Build. Deliver. Grow.
+  </text>
+</svg>

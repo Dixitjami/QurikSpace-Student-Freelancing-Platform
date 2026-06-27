@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QurikSpace</title>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#303030',
+                        carbon: '#202020',
+                        paper: '#f9f3ee',
+                        mist: '#f0f0f0',
+                        cream: '#ffffff',
+                        soft: '#faf2ee',
+                        peach: '#fdc6bb',
+                        signal: '#F5843A',
+                        amber: '#F9B84B',
+                        coral: '#E8402A',
+                        warm: '#F5843A',
+                        sea: '#d0d0d0',
+                        primary: '#303030'
+                    },
+                    boxShadow: {
+                        crisp: '0 24px 60px rgba(48, 48, 48, 0.12)'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f0f0f0;
+        }
+
+        .q-card {
+            border: 1px solid rgba(48, 48, 48, 0.08);
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 18px 42px rgba(48, 48, 48, 0.08);
+        }
+
+        .q-focus {
+            outline: 3px solid rgba(232, 64, 42, 0.28);
+            outline-offset: 3px;
+        }
+
+        .bg-slate-100, .bg-gray-100 { background-color: #f0f0f0 !important; }
+        .bg-slate-50, .bg-gray-50, .hover\:bg-slate-50:hover, .hover\:bg-purple-50:hover { background-color: #fff8f0 !important; }
+        .bg-slate-200, .bg-gray-200 { background-color: #e8e8e8 !important; }
+        .bg-slate-800, .bg-slate-900, .bg-gray-900, .bg-primary { background-color: #303030 !important; }
+        .from-slate-800, .from-slate-900 { --tw-gradient-from: #303030 var(--tw-gradient-from-position) !important; --tw-gradient-to: rgb(48 48 48 / 0) var(--tw-gradient-to-position) !important; }
+        .to-slate-800, .to-slate-900 { --tw-gradient-to: #303030 var(--tw-gradient-to-position) !important; }
+        .from-teal-600, .from-purple-600 { --tw-gradient-from: #E8402A var(--tw-gradient-from-position) !important; --tw-gradient-to: rgb(232 64 42 / 0) var(--tw-gradient-to-position) !important; }
+        .to-teal-700, .to-indigo-500 { --tw-gradient-to: #F5843A var(--tw-gradient-to-position) !important; }
+        .bg-teal-500, .bg-teal-600, .bg-purple-600, .bg-indigo-500, .hover\:bg-teal-600:hover, .hover\:bg-teal-700:hover, .hover\:bg-purple-700:hover { background-color: #E8402A !important; }
+        .bg-teal-50, .bg-teal-100, .bg-orange-50, .bg-amber-100 { background-color: #fff0e8 !important; }
+        .bg-rose-50, .bg-red-50 { background-color: #f8f0f0 !important; }
+        .bg-emerald-100, .bg-sky-100, .bg-indigo-100 { background-color: #faf2ee !important; }
+        .text-slate-900, .text-slate-800, .text-gray-800 { color: #303030 !important; }
+        .text-slate-700, .text-gray-700 { color: rgba(48, 48, 48, 0.72) !important; }
+        .text-slate-600, .text-gray-600 { color: rgba(48, 48, 48, 0.62) !important; }
+        .text-slate-500, .text-slate-400, .text-gray-500, .text-gray-400 { color: rgba(48, 48, 48, 0.45) !important; }
+        .text-teal-600, .text-teal-700, .text-teal-400, .text-purple-600, .text-orange-500, .text-amber-500 { color: #E8402A !important; }
+        .text-green-600 { color: #303030 !important; }
+        .text-red-600, .text-rose-600, .text-rose-700 { color: #E8402A !important; }
+        .text-emerald-700, .text-emerald-800, .text-sky-800, .text-indigo-800, .text-amber-800 { color: #303030 !important; }
+        .border-slate-200, .border-slate-300, .border-gray-200, .border-gray-300 { border-color: #e8e8e8 !important; }
+        .border-teal-600, .border-teal-400, .border-amber-200, .border-emerald-200, .border-sky-200, .border-indigo-200 { border-color: #fdc6bb !important; }
+        .focus\:ring-teal-500:focus { --tw-ring-color: rgba(232, 64, 42, 0.28) !important; }
+        .shadow-xl, .shadow-2xl, .shadow-lg { box-shadow: 0 24px 60px rgba(48, 48, 48, 0.12) !important; }
+        .bg-signal.text-white { color: #181313 !important; }
+        .bg-coral { background-color: #E8402A !important; }
+        .bg-signal { background-color: #F5843A !important; }
+        .bg-amber { background-color: #F9B84B !important; }
+        .text-coral { color: #E8402A !important; }
+        .hover\:bg-coral:hover { background-color: #E8402A !important; }
+        .site-nav-link:hover {
+            color: #E8402A !important;
+        }
+
+        .site-mobile-link:hover {
+            border-color: rgba(232, 64, 42, 0.24) !important;
+            background: #fff0e8 !important;
+            color: #E8402A !important;
+        }
+
+        .site-header-cta:hover {
+            background: #E8402A !important;
+            color: #ffffff !important;
+        }
+
+        .services-menu[open] > summary {
+            color: #E8402A;
+        }
+
+        .services-menu summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .services-trigger::after {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-right: 1.6px solid currentColor;
+            border-bottom: 1.6px solid currentColor;
+            transform: rotate(45deg) translateY(-1px);
+            transition: transform 160ms ease;
+        }
+
+        .services-menu[open] .services-trigger::after {
+            transform: rotate(225deg) translateY(-1px);
+        }
+
+        a[class*="bg-coral"], button[class*="bg-coral"],
+        a[class*="bg-ink"], button[class*="bg-ink"],
+        a[class*="bg-carbon"], button[class*="bg-carbon"] {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen text-ink antialiased">
+
+<nav class="sticky top-0 z-50 bg-paper/90 backdrop-blur-xl">
+    <div class="w-full px-5 sm:px-8 lg:px-10 py-5 grid grid-cols-[auto_1fr_auto] items-center gap-8">
+        <a href="{% url 'home' %}" class="group flex items-center gap-3 justify-self-start" aria-label="QurikSpace home">
+            <span class="grid h-8 w-8 place-items-center rounded-full bg-coral text-sm font-black text-white shadow-[0_10px_22px_rgba(232,64,42,0.26)]">Q</span>
+            <span class="leading-tight">
+                <span class="block text-xl font-extrabold tracking-tight">QurikSpace</span>
+            </span>
+        </a>
+
+        <div class="hidden md:flex items-center justify-center gap-8 text-[13px] font-medium text-ink/62">
+            <a href="{% url 'home' %}" class="site-nav-link transition">Home</a>
+            <a href="{% url 'gig_list' %}" class="site-nav-link transition">Explore</a>
+            {% if request.user.is_authenticated and request.user.user_type == 'client' %}
+                <details class="services-menu relative">
+                    <summary class="services-trigger site-nav-link flex cursor-pointer list-none items-center gap-2 transition">
+                        Services
+                    </summary>
+                    <div class="absolute left-1/2 top-9 z-50 w-[760px] max-w-[calc(100vw-48px)] -translate-x-1/2 rounded-lg border border-ink/10 bg-white p-5 shadow-crisp">
+                        <div class="flex items-center justify-between border-b border-ink/10 pb-3">
+                            <p class="text-sm font-extrabold text-ink">Browse Services</p>
+                            <a href="{% url 'gig_list' %}" class="text-xs font-extrabold text-coral hover:underline">All services</a>
+                        </div>
+                        <div class="mt-4 grid max-h-[420px] gap-4 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-3">
+                            {% for category in header_categories %}
+                                <div class="rounded-lg border border-ink/10 bg-[#fffaf5] p-4">
+                                    <a href="{% url 'gig_list' %}?category={{ category.id }}" class="block text-sm font-extrabold leading-tight text-ink hover:text-coral">
+                                        {{ category.name }}
+                                    </a>
+                                    <div class="mt-3 space-y-2">
+                                        {% for subcategory in category.subcategories.all %}
+                                            <a href="{% url 'gig_list' %}?category={{ subcategory.id }}" class="block text-xs font-semibold leading-5 text-ink/58 hover:text-coral">
+                                                {{ subcategory.name }}
+                                            </a>
+                                        {% empty %}
+                                            <span class="block text-xs font-semibold text-ink/40">Services coming soon</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p class="col-span-full rounded-lg border border-dashed border-ink/15 bg-[#fffaf5] p-4 text-sm font-semibold text-ink/45">
+                                    Categories will appear here after they are added.
+                                </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </details>
+            {% endif %}
+            <a href="{% url 'recommendations_home' %}" class="site-nav-link transition">Recommendations</a>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'my_orders' %}" class="site-nav-link transition">Orders</a>
+                <a href="{% url 'my_conversations' %}" class="site-nav-link transition">Messages</a>
+            {% else %}
+                <a href="#how-it-works" class="site-nav-link transition">How it works</a>
+            {% endif %}
+        </div>
+
+        <div class="hidden md:flex items-center justify-end gap-5 text-[13px] font-semibold">
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="site-nav-link text-ink/62 transition">Dashboard</a>
+                <a href="{% url 'logout' %}" class="site-nav-link text-ink/62 transition">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="site-nav-link text-ink/62 transition">Log in</a>
+                <a href="{% url 'register' %}" class="site-header-cta rounded-full bg-coral px-5 py-2 text-white shadow-sm transition">Get Started</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="border-t border-ink/5 px-5 pb-4 md:hidden">
+        <div class="mx-auto flex max-w-6xl flex-wrap gap-2 pt-4 text-xs font-semibold">
+            <a href="{% url 'home' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Home</a>
+            <a href="{% url 'gig_list' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Explore</a>
+            <a href="{% url 'recommendations_home' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Recommendations</a>
+            {% if request.user.is_authenticated %}
+                {% if request.user.user_type == 'client' %}
+                    <details class="services-menu w-full rounded-lg border border-ink/10 bg-white px-4 py-3 text-ink/70">
+                        <summary class="cursor-pointer list-none text-xs font-extrabold">Services</summary>
+                        <div class="mt-4 grid gap-3">
+                            {% for category in header_categories %}
+                                <div class="rounded-lg bg-[#fffaf5] p-3">
+                                    <a href="{% url 'gig_list' %}?category={{ category.id }}" class="block text-sm font-extrabold text-ink">{{ category.name }}</a>
+                                    <div class="mt-2 flex flex-wrap gap-2">
+                                        {% for subcategory in category.subcategories.all %}
+                                            <a href="{% url 'gig_list' %}?category={{ subcategory.id }}" class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-ink/55">{{ subcategory.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </details>
+                {% endif %}
+                <a href="{% url 'dashboard' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Dashboard</a>
+                <a href="{% url 'my_orders' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Orders</a>
+                <a href="{% url 'my_conversations' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Messages</a>
+                <a href="{% url 'wallet' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Wallet</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="site-mobile-link rounded-full border border-transparent bg-white px-4 py-2 text-ink/70 transition">Log in</a>
+                <a href="{% url 'register' %}" class="site-header-cta rounded-full bg-coral px-4 py-2 text-white transition">Get Started</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="border-t border-ink/10 bg-white">
+    <div class="max-w-7xl mx-auto px-6 py-10 grid gap-6 md:grid-cols-[1fr_auto] items-center">
+        <div>
+            <h3 class="text-2xl font-extrabold text-ink">QurikSpace</h3>
+            <p class="mt-2 max-w-xl text-sm text-ink/55">
+                A smarter marketplace for freelancers, portfolio-backed services, and client-ready project delivery.
+            </p>
+        </div>
+        <p class="text-sm text-ink/45">&copy; 2026 QurikSpace. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

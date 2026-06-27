@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="bg-slate-100 min-h-screen pb-16">
+
+    <!-- ===== TOP BANNER ===== -->
+    <div class="bg-gradient-to-r from-teal-600 to-slate-800 h-52"></div>
+
+    <div class="max-w-6xl mx-auto px-6">
+
+        <!-- ===== PROFILE CARD ===== -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 -mt-24 relative">
+
+            <div class="flex flex-col md:flex-row md:items-center gap-8">
+
+                <!-- PROFILE IMAGE -->
+                <div class="flex justify-center md:justify-start">
+                    {% if profile_user.profile_image %}
+                        <img src="{{ profile_user.profile_image.url }}"
+                             class="w-40 h-40 rounded-full object-cover border-4 border-white shadow-lg">
+                    {% else %}
+                        <img src="https://ui-avatars.com/api/?name={{ profile_user.username }}&size=200"
+                             class="w-40 h-40 rounded-full border-4 border-white shadow-lg">
+                    {% endif %}
+                </div>
+
+                <!-- PROFILE INFO -->
+                <div class="flex-1 text-center md:text-left">
+
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+
+                        <div>
+                            <h1 class="text-3xl font-bold text-slate-800">
+                                {{ profile_user.username }}
+                            </h1>
+
+                            {% if profile.is_verified %}
+                                <span class="inline-block mt-2 bg-teal-100 text-teal-600 text-xs px-3 py-1 rounded-full">
+                                    ✔ Verified Freelancer
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- ACTION BUTTONS -->
+                        <div class="mt-4 md:mt-0 flex justify-center md:justify-end gap-3">
+                            {% if request.user == profile_user %}
+                                <a href="{% url 'edit_profile' %}"
+                                   class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-full text-sm transition shadow">
+                                    Edit Profile
+                                </a>
+                            {% endif %}
+
+                            {% if request.user.user_type == 'client' %}
+                                <a href="{% url 'start_conversation' profile_user.id %}"
+                                   class="border border-teal-600 text-teal-600 px-6 py-2 rounded-full text-sm hover:bg-teal-50 transition">
+                                    Message
+                                </a>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <!-- AVAILABILITY -->
+                    <div class="mt-4">
+                        {% if profile.is_available %}
+                            <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
+                                🟢 Available
+                            </span>
+                        {% else %}
+                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
+                                🔴 Busy
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- BIO -->
+                    <p class="mt-5 text-slate-600 max-w-2xl leading-relaxed">
+                        {{ profile.bio|default:"Freelancer on QurikSpace." }}
+                    </p>
+
+                    <!-- STATS -->
+                    <div class="flex justify-center md:justify-start gap-10 mt-6 border-t pt-6">
+
+                        <div class="text-center">
+                            <p class="text-xl font-bold text-teal-600">
+                                {{ gigs_count }}
+                            </p>
+                            <p class="text-xs text-slate-500">Active Gigs</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-xl font-bold text-teal-600">
+                                {{ completed_orders }}
+                            </p>
+                            <p class="text-xs text-slate-500">Completed Orders</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-xl font-bold text-teal-600">
+                                {{ average_rating|floatformat:1 }}
+                            </p>
+                            <p class="text-xs text-slate-500">Rating</p>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-xl font-bold text-teal-600">
+                                {{ total_reviews }}
+                            </p>
+                            <p class="text-xs text-slate-500">Reviews</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== MAIN CONTENT GRID ===== -->
+        <div class="grid md:grid-cols-3 gap-8 mt-12">
+
+            <!-- LEFT COLUMN -->
+            <div class="space-y-8">
+
+                <!-- SKILLS -->
+                <div class="bg-white rounded-2xl shadow p-6">
+                    <h3 class="font-semibold text-slate-800 mb-4">Skills</h3>
+
+                    <div class="flex flex-wrap gap-2">
+                        {% for skill in skills %}
+                            <span class="bg-teal-50 text-teal-700 px-3 py-1 text-xs rounded-full">
+                                {{ skill }}
+                            </span>
+                        {% empty %}
+                            <p class="text-sm text-slate-400">
+                                No skills added.
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- EDUCATION -->
+                <div class="bg-white rounded-2xl shadow p-6">
+                    <h3 class="font-semibold text-slate-800 mb-4">Education</h3>
+
+                    {% if profile.university %}
+                        <p class="font-semibold text-slate-700">
+                            {{ profile.degree }}
+                        </p>
+                        <p class="text-slate-600 text-sm">
+                            {{ profile.field_of_study }}
+                        </p>
+                        <p class="text-slate-500 text-sm">
+                            {{ profile.university }}
+                        </p>
+                        <p class="text-xs text-slate-400 mt-1">
+                            Class of {{ profile.graduation_year }}
+                        </p>
+                    {% else %}
+                        <p class="text-sm text-slate-400">
+                            No education details.
+                        </p>
+                    {% endif %}
+
+                    {% if profile.resume %}
+                        <div class="mt-4">
+                            <a href="{{ profile.resume.url }}"
+                               target="_blank"
+                               class="text-teal-600 text-sm font-medium hover:underline">
+                                📄 Download Resume
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if request.user.is_staff %}
+                        {% if profile.student_id_card or profile.enrollment_proof %}
+                            <div class="mt-4 space-y-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase">
+                                    Verification Files (Admin Only)
+                                </p>
+
+                                {% if profile.student_id_card %}
+                                    <a href="{{ profile.student_id_card.url }}"
+                                       target="_blank"
+                                       class="block text-teal-600 text-sm font-medium hover:underline">
+                                        View ID Document
+                                    </a>
+                                {% endif %}
+
+                                {% if profile.enrollment_proof %}
+                                    <a href="{{ profile.enrollment_proof.url }}"
+                                       target="_blank"
+                                       class="block text-teal-600 text-sm font-medium hover:underline">
+                                        View Verification Proof
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="md:col-span-2 space-y-12">
+
+                <!-- PORTFOLIO -->
+                <div>
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6">
+                        Portfolio
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        {% for project in portfolio_projects %}
+                            <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
+                                {% if project.image %}
+                                    <img src="{{ project.image.url }}"
+                                         class="w-full h-48 object-cover">
+                                {% endif %}
+                                <div class="p-5">
+                                    <h3 class="font-semibold text-slate-800">
+                                        {{ project.title }}
+                                    </h3>
+                                    <p class="text-sm text-slate-600 mt-2">
+                                        {{ project.description|truncatewords:15 }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p class="text-slate-400">
+                                No portfolio projects yet.
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- ACTIVE GIGS -->
+                <div>
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6">
+                        Active Gigs
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        {% for gig in gigs %}
+                            <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 hover:shadow-lg transition">
+                                <h3 class="font-semibold text-slate-800">
+                                    {{ gig.title }}
+                                </h3>
+                                <p class="text-sm text-slate-600 mt-2">
+                                    {{ gig.description|truncatewords:15 }}
+                                </p>
+                                <a href="{% url 'gig_detail' gig.id %}"
+                                   class="text-teal-600 text-sm font-medium mt-3 inline-block hover:underline">
+                                    View →
+                                </a>
+                            </div>
+                        {% empty %}
+                            <p class="text-slate-400">
+                                No active gigs.
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

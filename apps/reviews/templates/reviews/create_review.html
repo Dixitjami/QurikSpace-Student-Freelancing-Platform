@@ -1,0 +1,12 @@
+<h2>Leave Review for {{ order.seller.username }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    Rating (1-5):<br>
+    {{ form.rating }}<br><br>
+
+    Comment:<br>
+    {{ form.comment }}<br><br>
+
+    <button type="submit">Submit Review</button>
+</form>

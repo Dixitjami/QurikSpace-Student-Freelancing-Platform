@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="bg-[#fff6ef]">
+    <div class="bg-[#262222] px-6 py-12 text-white md:px-10 lg:px-16">
+        <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div>
+                <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#F9B84B]">Service Details</p>
+                <h1 class="mt-4 max-w-4xl text-3xl font-extrabold leading-tight md:text-5xl">{{ gig.title }}</h1>
+                <p class="mt-5 max-w-3xl text-sm leading-7 text-white/62">{{ gig.description }}</p>
+            </div>
+
+            <div class="rounded-xl border border-white/10 bg-white/10 p-5 backdrop-blur">
+                <p class="text-xs font-extrabold uppercase tracking-[0.16em] text-white/45">Freelancer</p>
+                <div class="mt-3 flex items-center gap-3">
+                    <div class="grid h-12 w-12 place-items-center rounded-full bg-white text-sm font-black text-coral">
+                        {{ gig.seller.username|first|upper }}
+                    </div>
+                    <div>
+                        <a href="{% url 'freelancer_profile' gig.seller.id %}" class="font-extrabold text-white hover:text-[#F9B84B]">{{ gig.seller.username }}</a>
+                        <p class="mt-1 text-xs font-semibold text-white/45">
+                            {% if total_reviews > 0 %}{{ average_rating|floatformat:1 }} / 5.0 · {{ total_reviews }} review{{ total_reviews|pluralize }}{% else %}No reviews yet{% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-5 flex flex-wrap gap-2">
+                    <span class="rounded-full bg-[#F9B84B] px-3 py-1 text-xs font-black text-ink">{{ gig.category.name|default:"General" }}</span>
+                    <span class="rounded-full bg-white/12 px-3 py-1 text-xs font-bold text-white/75">Delivery {{ gig.delivery_time }} day{{ gig.delivery_time|pluralize }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mx-auto grid max-w-7xl gap-6 px-6 py-10 lg:grid-cols-[1fr_380px]">
+        <div class="space-y-6">
+            <div class="rounded-xl border border-ink/10 bg-white p-7 shadow-sm">
+                <h2 class="text-2xl font-extrabold text-ink">What you get</h2>
+                <p class="mt-4 leading-7 text-ink/62">{{ gig.description }}</p>
+            </div>
+
+            <div class="rounded-xl border border-ink/10 bg-white p-7 shadow-sm">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-ink">Client Reviews</h2>
+                        <p class="mt-1 text-sm font-semibold text-ink/45">{{ total_reviews }} total review{{ total_reviews|pluralize }}</p>
+                    </div>
+                    <span class="rounded-full bg-[#fff0e8] px-4 py-2 text-sm font-extrabold text-coral">
+                        Rating {{ average_rating|default:"0"|floatformat:1 }}
+                    </span>
+                </div>
+
+                {% if reviews %}
+                    <div class="mt-6 space-y-4">
+                        {% for review in reviews %}
+                            <article class="rounded-lg border border-ink/10 bg-[#fffaf5] p-5">
+                                <div class="flex items-center justify-between gap-3">
+                                    <p class="font-extrabold text-ink">{{ review.reviewer.username }}</p>
+                                    <p class="text-xs font-semibold text-ink/40">{{ review.created_at|date:"M d, Y" }}</p>
+                                </div>
+                                <p class="mt-2 text-sm text-[#F5843A]">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+                                    {% endfor %}
+                                    <span class="ml-1 font-bold text-ink/45">{{ review.rating }}/5</span>
+                                </p>
+                                <p class="mt-3 text-sm leading-6 text-ink/62">{% if review.comment %}{{ review.comment }}{% else %}No written comment.{% endif %}</p>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="mt-6 rounded-lg border border-dashed border-ink/15 bg-[#fffaf5] p-6 text-sm font-semibold text-ink/50">
+                        No reviews yet. This service is ready for its first client review.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <aside class="space-y-5">
+            <div class="sticky top-28 rounded-xl border border-ink/10 bg-white p-6 shadow-crisp">
+                <h2 class="text-xl font-extrabold text-ink">Choose a Package</h2>
+                <p class="mt-2 text-sm leading-6 text-ink/50">Pick the tier that best matches your project scope.</p>
+
+                <div class="mt-5 space-y-4">
+                    {% for tier in tiers %}
+                        <div class="rounded-xl border p-5 {% if tier.tier_name == 'standard' %}border-coral bg-[#fff0e8]{% else %}border-ink/10 bg-[#fffaf5]{% endif %}">
+                            <div class="flex items-start justify-between gap-3">
+                                <h3 class="font-extrabold text-ink">{{ tier.get_tier_name_display }}</h3>
+                                {% if tier.tier_name == 'standard' %}
+                                    <span class="rounded-full bg-coral px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-white">Popular</span>
+                                {% endif %}
+                            </div>
+                            <p class="mt-3 text-2xl font-black text-ink">Rs {{ tier.price }}</p>
+                            <p class="mt-2 text-sm leading-6 text-ink/58">{{ tier.description }}</p>
+
+                            {% if request.user.user_type == 'client' %}
+                                <a href="{% url 'create_order' tier.id %}" class="mt-4 inline-flex w-full justify-center rounded-lg bg-[#262222] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-coral">
+                                    Order This Package
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if request.user == gig.seller %}
+                <div class="rounded-xl border border-ink/10 bg-white p-6 shadow-sm">
+                    <h3 class="text-lg font-extrabold text-ink">Manage Service</h3>
+                    <div class="mt-4 grid gap-3">
+                        <a href="{% url 'edit_gig' gig.id %}" class="inline-flex justify-center rounded-lg bg-[#262222] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-coral">
+                            Edit Gig
+                        </a>
+                        <a href="{% url 'delete_gig' gig.id %}" class="inline-flex justify-center rounded-lg border border-coral/30 bg-[#fff0e8] px-4 py-3 text-sm font-extrabold text-coral transition hover:bg-coral hover:text-white">
+                            Delete Gig
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </aside>
+    </div>
+</section>
+{% endblock %}

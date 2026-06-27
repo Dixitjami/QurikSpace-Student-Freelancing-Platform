@@ -1,0 +1,352 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - QurikSpace</title>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#303030',
+                        carbon: '#202020',
+                        paper: '#f9f3ee',
+                        mist: '#f0f0f0',
+                        cream: '#ffffff',
+                        soft: '#faf2ee',
+                        peach: '#fdc6bb',
+                        signal: '#F5843A',
+                        amber: '#F9B84B',
+                        coral: '#E8402A',
+                        warm: '#F5843A',
+                        sea: '#d0d0d0',
+                        primary: '#303030'
+                    },
+                    boxShadow: {
+                        crisp: '0 24px 60px rgba(48, 48, 48, 0.12)'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 12% 8%, rgba(249, 184, 75, 0.24), transparent 30%),
+                radial-gradient(circle at 86% 18%, rgba(232, 64, 42, 0.10), transparent 34%),
+                linear-gradient(135deg, #fff8f0 0%, #fff6ef 46%, #fff0e6 100%);
+        }
+
+        .dashboard-shell {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.76), rgba(249, 184, 75, 0.12));
+        }
+
+        .dashboard-sidebar {
+            background: linear-gradient(180deg, #ffffff 0%, #fff8f0 48%, #fff0e6 100%);
+        }
+
+        .dashboard-nav-link:hover {
+            background: #F9B84B !important;
+            color: #181313 !important;
+            box-shadow: 0 12px 24px rgba(249, 184, 75, 0.28);
+            border-left: 4px solid #E8402A;
+        }
+
+        .dashboard-nav-link:hover svg,
+        .dashboard-nav-link:hover span {
+            color: #181313 !important;
+        }
+
+        .dashboard-brand-mark {
+            background: #E8402A !important;
+            color: #ffffff !important;
+            box-shadow: 0 16px 34px rgba(232, 64, 42, 0.32);
+        }
+
+        .dashboard-hero {
+            position: relative;
+            isolation: isolate;
+            border: 1px solid rgba(249, 184, 75, 0.50);
+            background:
+                linear-gradient(120deg, rgba(255, 255, 255, 0.94), rgba(255, 246, 239, 0.78)),
+                radial-gradient(circle at 82% 18%, rgba(249, 184, 75, 0.42), transparent 28%),
+                radial-gradient(circle at 14% 84%, rgba(232, 64, 42, 0.12), transparent 26%);
+            box-shadow: 0 30px 80px rgba(48, 48, 48, 0.12);
+        }
+
+        .dashboard-kicker {
+            color: #E8402A !important;
+        }
+
+        .dashboard-card {
+            border: 1px solid rgba(249, 184, 75, 0.32) !important;
+            background: rgba(255, 255, 255, 0.92) !important;
+            box-shadow: 0 18px 46px rgba(48, 48, 48, 0.08) !important;
+            transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+        }
+
+        .dashboard-card:hover {
+            border-color: rgba(245, 132, 58, 0.58) !important;
+            box-shadow: 0 24px 60px rgba(48, 48, 48, 0.13) !important;
+            transform: translateY(-2px);
+        }
+
+        .dashboard-stat {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-stat::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 5px;
+            background: linear-gradient(180deg, #E8402A, #F5843A);
+        }
+
+        .dashboard-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(232, 64, 42, 0.38) !important;
+            background: #E8402A !important;
+            color: #ffffff !important;
+            box-shadow: 0 16px 30px rgba(232, 64, 42, 0.26);
+        }
+
+        .dashboard-button:hover {
+            background: #F5843A !important;
+            color: #ffffff !important;
+            box-shadow: 0 20px 38px rgba(245, 132, 58, 0.34);
+            transform: translateY(-1px);
+        }
+
+        .dashboard-button-soft {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(249, 184, 75, 0.58) !important;
+            background: rgba(249, 184, 75, 0.20) !important;
+            color: #181313 !important;
+        }
+
+        .dashboard-button-soft:hover {
+            background: rgba(249, 184, 75, 0.34) !important;
+            color: #181313 !important;
+        }
+
+        .bg-slate-100, .bg-gray-100 { background-color: #f0f0f0 !important; }
+        .bg-slate-50, .bg-gray-50, .hover\:bg-slate-50:hover, .hover\:bg-purple-50:hover { background-color: #fff8f0 !important; }
+        .bg-slate-200, .bg-gray-200 { background-color: #e8e8e8 !important; }
+        .bg-slate-800, .bg-slate-900, .bg-gray-900, .bg-primary { background-color: #303030 !important; }
+        .from-slate-800, .from-slate-900 { --tw-gradient-from: #303030 var(--tw-gradient-from-position) !important; --tw-gradient-to: rgb(48 48 48 / 0) var(--tw-gradient-to-position) !important; }
+        .to-slate-800, .to-slate-900 { --tw-gradient-to: #303030 var(--tw-gradient-to-position) !important; }
+        .from-teal-600, .from-purple-600 { --tw-gradient-from: #E8402A var(--tw-gradient-from-position) !important; --tw-gradient-to: rgb(232 64 42 / 0) var(--tw-gradient-to-position) !important; }
+        .to-teal-700, .to-indigo-500 { --tw-gradient-to: #F5843A var(--tw-gradient-to-position) !important; }
+        .bg-teal-500, .bg-teal-600, .bg-purple-600, .bg-indigo-500, .hover\:bg-teal-600:hover, .hover\:bg-teal-700:hover, .hover\:bg-purple-700:hover { background-color: #E8402A !important; color: #ffffff !important; }
+        .bg-teal-50, .bg-teal-100, .bg-orange-50, .bg-amber-100 { background-color: #fff0e8 !important; }
+        .bg-rose-50, .bg-red-50 { background-color: #f8f0f0 !important; }
+        .bg-emerald-100, .bg-sky-100, .bg-indigo-100 { background-color: #faf2ee !important; }
+        .text-slate-900, .text-slate-800, .text-gray-800 { color: #303030 !important; }
+        .text-slate-700, .text-gray-700 { color: rgba(48, 48, 48, 0.72) !important; }
+        .text-slate-600, .text-gray-600 { color: rgba(48, 48, 48, 0.62) !important; }
+        .text-slate-500, .text-slate-400, .text-gray-500, .text-gray-400 { color: rgba(48, 48, 48, 0.45) !important; }
+        .text-teal-600, .text-teal-700, .text-teal-400, .text-purple-600, .text-orange-500, .text-amber-500 { color: #E8402A !important; }
+        .text-green-600 { color: #303030 !important; }
+        .text-red-600, .text-rose-600, .text-rose-700 { color: #E8402A !important; }
+        .text-emerald-700, .text-emerald-800, .text-sky-800, .text-indigo-800, .text-amber-800 { color: #303030 !important; }
+        .border-slate-200, .border-slate-300, .border-gray-200, .border-gray-300 { border-color: #e8e8e8 !important; }
+        .border-teal-600, .border-teal-400, .border-amber-200, .border-emerald-200, .border-sky-200, .border-indigo-200 { border-color: #fdc6bb !important; }
+        .focus\:ring-teal-500:focus { --tw-ring-color: rgba(254, 84, 64, 0.28) !important; }
+        .shadow-xl, .shadow-2xl, .shadow-lg { box-shadow: 0 24px 60px rgba(48, 48, 48, 0.12) !important; }
+        .bg-signal { background-color: #F5843A !important; }
+        .bg-amber { background-color: #F9B84B !important; }
+        .bg-coral { background-color: #E8402A !important; }
+        .text-coral { color: #E8402A !important; }
+        .bg-signal.text-white { color: #ffffff !important; }
+        a[class*="bg-coral"], button[class*="bg-coral"],
+        a[class*="bg-ink"], button[class*="bg-ink"],
+        a[class*="bg-carbon"], button[class*="bg-carbon"],
+        a[class*="bg-teal"], button[class*="bg-teal"],
+        a[class*="bg-rose"], button[class*="bg-rose"] {
+            background-color: #E8402A !important;
+            border-color: rgba(232, 64, 42, 0.42) !important;
+            color: #ffffff !important;
+            box-shadow: 0 16px 30px rgba(232, 64, 42, 0.24);
+        }
+
+        a[class*="hover:bg-carbon"]:hover, button[class*="hover:bg-carbon"]:hover,
+        a[class*="hover:bg-teal"]:hover, button[class*="hover:bg-teal"]:hover,
+        a[class*="hover:bg-rose"]:hover, button[class*="hover:bg-rose"]:hover {
+            background-color: #F5843A !important;
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body class="text-ink antialiased">
+
+<div class="dashboard-shell flex min-h-screen">
+    <aside class="dashboard-sidebar hidden w-72 shrink-0 border-r border-ink/10 text-ink lg:flex lg:flex-col">
+        <a href="{% url 'home' %}" class="flex items-center gap-3 border-b border-ink/10 p-6">
+            <span class="dashboard-brand-mark grid h-11 w-11 place-items-center rounded-lg font-extrabold">Q</span>
+            <span>
+                <span class="block text-2xl font-extrabold">QurikSpace</span>
+                <span class="block text-[11px] uppercase tracking-[0.16em] text-ink/45">Workspace</span>
+            </span>
+        </a>
+
+        <nav class="flex-1 p-5 space-y-2 text-sm font-semibold">
+            <a href="{% url 'dashboard' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.5h6v7H3v-7zm6-10h6v17H9v-17zm6 6h6v11h-6V9.5z" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{% url 'gig_list' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15m-15 5.25h15m-15 5.25h15" />
+                </svg>
+                <span>Explore Gigs</span>
+            </a>
+
+            {% if request.user.user_type == 'student' %}
+                <div class="px-4 pt-3 text-[11px] font-extrabold uppercase tracking-[0.16em] text-ink/35">Workspace</div>
+
+                <a href="{% url 'student_dashboard' %}?tab=orders" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h15m-15 5.25h15m-15 5.25h15" />
+                    </svg>
+                    <span>Recent Orders</span>
+                </a>
+
+                <a href="{% url 'student_dashboard' %}?tab=messages" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3h5.25m-8.25 8.25V6.75A2.25 2.25 0 016.75 4.5h10.5a2.25 2.25 0 012.25 2.25v7.5a2.25 2.25 0 01-2.25 2.25H9l-4.5 3z" />
+                    </svg>
+                    <span>Message Preview</span>
+                </a>
+
+                <a href="{% url 'student_dashboard' %}?tab=profile" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" />
+                    </svg>
+                    <span>Profile & Portfolio</span>
+                </a>
+
+                <a href="{% url 'student_dashboard' %}?tab=reviews" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75l2.4 4.86 5.36.78-3.88 3.78.92 5.34L12 15.98l-4.8 2.53.92-5.34-3.88-3.78 5.36-.78L12 3.75z" />
+                    </svg>
+                    <span>Reviews</span>
+                </a>
+
+                <a href="{% url 'student_dashboard' %}?tab=wallet" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12V8.25A2.25 2.25 0 0018.75 6H5.25A2.25 2.25 0 003 8.25v7.5A2.25 2.25 0 005.25 18h13.5A2.25 2.25 0 0021 15.75V12zm0 0h-4.5a1.5 1.5 0 100 3H21v-3z" />
+                    </svg>
+                    <span>Transactions</span>
+                </a>
+
+                <a href="{% url 'student_dashboard' %}?tab=deadlines" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l3.75 2.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Deadlines</span>
+                </a>
+
+                <a href="{% url 'student_dashboard' %}?tab=performance" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.5h6v7H3v-7zm6-10h6v17H9v-17zm6 6h6v11h-6V9.5z" />
+                    </svg>
+                    <span>Performance</span>
+                </a>
+
+                <a href="{% url 'student_dashboard' %}?tab=gigs" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3.75h10.5a3 3 0 013 3v10.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.75a3 3 0 013-3z" />
+                    </svg>
+                    <span>My Gigs</span>
+                </a>
+
+                <a href="{% url 'create_gig' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
+                    </svg>
+                    <span>Create Gig</span>
+                </a>
+
+                <a href="{% url 'freelancer_profile' request.user.id %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" />
+                    </svg>
+                    <span>My Profile</span>
+                </a>
+            {% endif %}
+
+            {% if request.user.user_type == 'client' %}
+                <a href="{% url 'recommendations_home' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.75l2.4 4.86 5.36.78-3.88 3.78.92 5.34L12 15.98l-4.8 2.53.92-5.34-3.88-3.78 5.36-.78L12 3.75z" />
+                    </svg>
+                    <span>Recommendations</span>
+                </a>
+
+                <a href="{% url 'client_profile' request.user.id %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" />
+                    </svg>
+                    <span>My Profile</span>
+                </a>
+            {% endif %}
+
+            <a href="{% url 'my_orders' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5h16.5M6.75 3.75h10.5a3 3 0 013 3v10.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.75a3 3 0 013-3z" />
+                </svg>
+                <span>Orders</span>
+            </a>
+
+            <a href="{% url 'wallet' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12V8.25A2.25 2.25 0 0018.75 6H5.25A2.25 2.25 0 003 8.25v7.5A2.25 2.25 0 005.25 18h13.5A2.25 2.25 0 0021 15.75V12zm0 0h-4.5a1.5 1.5 0 100 3H21v-3z" />
+                </svg>
+                <span>Wallet</span>
+            </a>
+
+            <a href="{% url 'my_conversations' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-ink/72 hover:text-ink transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-sea" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3h5.25m-8.25 8.25V6.75A2.25 2.25 0 016.75 4.5h10.5a2.25 2.25 0 012.25 2.25v7.5a2.25 2.25 0 01-2.25 2.25H9l-4.5 3z" />
+                </svg>
+                <span>Messages</span>
+            </a>
+        </nav>
+
+        <div class="p-5 border-t border-ink/10">
+            <a href="{% url 'logout' %}" class="dashboard-nav-link flex items-center gap-3 rounded-lg px-4 py-3 text-coral transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m-6-3h11.25m0 0l-3-3m3 3l-3 3" />
+                </svg>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 min-w-0 p-5 sm:p-8 lg:p-10">
+        <div class="mb-6 flex items-center justify-between rounded-lg border border-ink/10 bg-white px-4 py-3 shadow-sm lg:hidden">
+            <a href="{% url 'home' %}" class="font-black">QurikSpace</a>
+            <a href="{% url 'logout' %}" class="text-sm font-bold text-coral">Logout</a>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </main>
+</div>
+
+</body>
+</html>
